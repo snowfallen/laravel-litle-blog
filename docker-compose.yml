@@ -18,12 +18,12 @@ services:
         image: phpmyadmin
         environment:
             MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
-            PMA_HOST: mysql
-            PMA_PORT: 3306
+            PMA_HOST: '${DB_HOST}'
+            PMA_PORT: '${DB_PORT}'
         depends_on:
             - mysql
         ports:
-            -   "6080:80"
+            -   "5050:80"
         networks:
             - app
 
