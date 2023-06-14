@@ -1,0 +1,36 @@
+version: '3'
+services:
+    mysql:
+        image: mysql:8.0
+        container_name: mysql
+        environment:
+            MYSQL_DATABASE: '${DB_DATABASE}'
+            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+            MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+        volumes:
+            - mysql:/var/lib/mysql
+        ports:
+            -   "3306:3306"
+        networks:
+            - app
+
+    pma:
+        image: phpmyadmin
+        environment:
+            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+            PMA_HOST: '${DB_HOST}'
+            PMA_PORT: '${DB_PORT}'
+        depends_on:
+            - mysql
+        ports:
+            -   "5050:80"
+        networks:
+            - app
+
+volumes:
+    mysql:
+        driver: local
+
+networks:
+    app:
+        driver: bridge
