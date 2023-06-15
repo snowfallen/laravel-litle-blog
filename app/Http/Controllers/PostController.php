@@ -16,9 +16,9 @@ class PostController extends Controller
      */
     public function index(): View|Factory|Application
     {
-        $posts = Post::all();
+        $posts = Post::paginate(5);
 
-        return view('posts.index', compact($posts));
+        return view('posts.index', ['posts' => $posts]);
     }
 
     /**
