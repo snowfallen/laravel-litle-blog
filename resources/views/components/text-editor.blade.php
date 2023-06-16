@@ -1,6 +1,6 @@
 @props(['disabled' => true, 'content'])
 @if(isset($content))
-    <textarea class="bg-gray-100 border border-gray-300 rounded-md p-4 resize-none w-full h-40" name="content">{{$content}}</textarea>
+    <textarea class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm p-4 resize-none w-full h-40" name="content">{{$content}}</textarea>
 @else
-    <textarea class="bg-gray-100 border border-gray-300 rounded-md p-4 resize-none w-full h-40" name="content"></textarea>
+    <textarea class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm p-4 resize-none w-full h-40" name="content"></textarea>
 @endif
