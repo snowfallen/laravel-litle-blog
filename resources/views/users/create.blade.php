@@ -6,7 +6,7 @@
             </h2>
         </div>
     </x-slot>
-    <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+    <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg m-5">
         @include('users.partials.create-user-form')
     </div>
 </x-app-layout>
