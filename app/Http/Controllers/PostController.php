@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostRequest;
 use App\Models\Post;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
 
 class PostController extends Controller
 {
@@ -22,24 +25,23 @@ class PostController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
+     * @return Application|Factory|View
      */
-    public function create()
+    public function create(): View|Factory|Application
     {
-        //
+        return view('posts.create');
     }
 
+
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return Response
+     * @param PostRequest $request
+     * @return Redirector|RedirectResponse|Application
      */
-    public function store(Request $request)
+    public function store(PostRequest $request): Redirector|RedirectResponse|Application
     {
-        //
+        Post::create($request->all());
+
+        return redirect('post')->with('success', 'Success! Your post has been created.');
     }
 
     /**
