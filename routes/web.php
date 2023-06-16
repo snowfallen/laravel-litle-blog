@@ -24,13 +24,22 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])
+        ->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])
+        ->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])
+        ->name('profile.destroy');
 
-    Route::resource('post', PostController::class);
-    Route::resource('user', UserController::class);
+    Route::get('post', '\App\Http\Controllers\PostController@index')
+        ->name('post.index');
+    Route::resource('post', PostController::class)
+        ->except('index')
+        ->middleware('role:writer');
+
+    Route::resource('user', UserController::class)
+        ->middleware('role:admin');
 
 });
 

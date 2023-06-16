@@ -36,7 +36,7 @@
                                     <h1 class="text-gray-800 dark:text-gray-200 flex items-center justify-center">
                                         {{ $post->title }}
                                     </h1>
-                                    @if(auth()->user()->hasRole('admin'))
+                                    @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('writer'))
                                         <div class="container-actions flex">
                                             <a class="inline-flex items-center m-2 p-2 px-5 bg-green-600 text-white uppercase rounded-md hover:bg-green-500 float-right mx-1" href="{{route('post.edit', $post)}}">Edit</a>
                                             <form method="post" action="{{ route('post.destroy',['post'=> $post->id]) }}" onsubmit="return confirm('Are you sure you want to delete post?');">

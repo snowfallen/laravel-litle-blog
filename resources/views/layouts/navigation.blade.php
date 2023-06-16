@@ -18,9 +18,11 @@
                     <x-nav-link :href="route('post.index')" :active="request()->routeIs('post.index')">
                         {{ __('Posts') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('user.index')" :active="request()->routeIs('user.index')">
-                        {{ __('Users') }}
-                    </x-nav-link>
+                    @if(auth()->user()->hasRole('admin'))
+                        <x-nav-link :href="route('user.index')" :active="request()->routeIs('user.index')">
+                            {{ __('Users') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -79,9 +81,11 @@
             <x-responsive-nav-link :href="route('post.index')" :active="request()->routeIs('post.index')">
                 {{ __('Posts') }}
             </x-responsive-nav-link>
+            @if(auth()->user()->hasRole('admin'))
             <x-responsive-nav-link :href="route('user.index')" :active="request()->routeIs('users.index')">
                 {{ __('Users') }}
             </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->
