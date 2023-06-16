@@ -32,8 +32,26 @@
                     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                         <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                             <div class="p-6 text-gray-900 dark:text-gray-100">
-                                <h1 class="p-4 text-gray-800 dark:text-gray-200">{{ $post->title }}</h1>
-                                <p class="text-gray-800 dark:text-gray-200">{{ $post->content }}</p>
+                                <div class="header flex justify-between border-b-2">
+                                    <h1 class="text-gray-800 dark:text-gray-200 flex items-center justify-center">
+                                        {{ $post->title }}
+                                    </h1>
+                                    @if(auth()->user()->hasRole('admin'))
+                                        <div class="container-actions flex">
+                                            <a class="inline-flex items-center m-2 p-2 px-5 bg-green-600 text-white uppercase rounded-md hover:bg-green-500 float-right mx-1" href="{{route('post.edit', $post)}}">Edit</a>
+                                            <form method="post" action="{{ route('post.destroy',['post'=> $post->id]) }}" onsubmit="return confirm('Are you sure you want to delete post?');">
+                                                @csrf
+                                                @method('delete')
+                                                <button class="inline-flex items-center m-2 p-2 px-5 bg-red-600 text-white uppercase rounded-md hover:bg-red-500 float-right mx-1">
+                                                    {{ __('Delete Post') }}
+                                                </button>
+                                            </form>
+                                        </div>
+                                    @endif
+                                </div>
+                                <div class="container-content">
+                                    <p class="text-gray-800 dark:text-gray-200 m-2">{{ $post->content }}</p>
+                                </div>
                             </div>
                         </div>
                     </div>

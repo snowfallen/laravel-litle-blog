@@ -8,8 +8,6 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 
 class PostController extends Controller
@@ -32,7 +30,6 @@ class PostController extends Controller
         return view('posts.create');
     }
 
-
     /**
      * @param PostRequest $request
      * @return Redirector|RedirectResponse|Application
@@ -45,47 +42,38 @@ class PostController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return Response
+     * @param Post $post
+     * @return Factory|View|Application
      */
-    public function edit($id)
+    public function edit(Post $post): Factory|View|Application
     {
-        //
+        return view('posts.edit',['post' => $post]);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return Response
+     * @param PostRequest $request
+     * @param Post $post
+     * @return Application|RedirectResponse|Redirector
      */
-    public function update(Request $request, $id)
+    public function update(PostRequest $request,Post $post): Redirector|RedirectResponse|Application
     {
-        //
+        $post->update($request->all());
+
+        return redirect('post')->with('success', 'Success! Your post has been updated.');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return Response
+     * @param Post $post
+     * @return Redirector|Application|RedirectResponse
      */
-    public function destroy($id)
+    public function destroy(Post $post): Redirector|Application|RedirectResponse
     {
-        //
+        $post->delete();
+
+        return redirect('post')->with('success', 'Success! Your post has been deleted.');
     }
 }
