@@ -4,6 +4,7 @@
         <tr>
             <th class="px-6 py-3 bg-gray-100 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
             <th class="px-6 py-3 bg-gray-100 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+            <th class="px-6 py-3 bg-gray-100 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
             <th class="px-6 py-3 bg-gray-100"></th>
         </tr>
         </thead>
@@ -12,6 +13,7 @@
             <tr>
                 <td class="px-6 py-4 whitespace-nowrap">{{ $user->name }}</td>
                 <td class="px-6 py-4 whitespace-nowrap">{{ $user->email }}</td>
+                <td class="px-6 py-4 whitespace-nowrap">{{ $user->roles->pluck('name')->first() }}</td>
                 <td class="px-6 py-4 whitespace-nowrap">
                     <a href="{{ route('user.edit', $user) }}" class="text-indigo-600 hover:text-indigo-900 mr-2">Edit</a>
                     <form action="{{ route('user.destroy', $user) }}" method="POST" class="inline">

@@ -1,6 +1,5 @@
 <form method="POST" action="{{ route('user.store') }}">
     @csrf
-
     <!-- Name -->
     <div>
         <x-input-label for="name" :value="__('Name')" />
@@ -13,6 +12,13 @@
         <x-input-label for="email" :value="__('Email')" />
         <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
         <x-input-error :messages="$errors->get('email')" class="mt-2" />
+    </div>
+
+    <!-- Role -->
+    <div class="mt-4">
+        <x-input-label for="role" :value="__('Role')" />
+        <x-role-select id="role" type="text" name="role"/>
+        <x-input-error :messages="$errors->get('role')" class="mt-2" />
     </div>
 
     <!-- Password -->

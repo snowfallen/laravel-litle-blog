@@ -9,6 +9,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -36,7 +37,10 @@ class UserController extends Controller
      */
     public function store(UserRequest $request): Redirector|RedirectResponse|Application
     {
-        User::create($request->all());
+        $role = Role::where('name', $request->role)->first();
+        $user = User::create($request->all());
+        $user->assignRole($role);
+
 
         return redirect('user')->with('success', 'Success! User has been created.');
     }
@@ -57,7 +61,12 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, User $user): Redirector|Application|RedirectResponse
     {
+        $role = Role::where('name', $request->role)->first();
+        $user->roles()->detach();
+        $user->assignRole($role);
+
         $password =  $request->password ? $request->password : $user->password;
+
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
