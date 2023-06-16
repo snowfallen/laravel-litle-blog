@@ -12,7 +12,8 @@
         <!-- Content -->
         <div>
             <x-input-label for="content" :value="__('Content')" />
-            <x-text-input id="content" class="block mt-1 w-full" type="text" name="content" />
+{{--            <x-text-input id="content" class="block mt-1 w-full" type="text" name="content" />--}}
+            <x-text-editor for="content" name="content"></x-text-editor>
             <x-input-error :messages="$errors->get('content')" class="mt-2" />
         </div>
 
