@@ -27,6 +27,16 @@ services:
         networks:
             - app
 
+    solr:
+        image: solr:${SOLR_VERSION}
+        container_name: solr
+        environment:
+            SOLR_CORE: '${SOLR_CORE}'
+        ports:
+            - "8983:8983"
+        networks:
+            - app
+
 volumes:
     mysql:
         driver: local
