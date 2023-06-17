@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Solarium\Client;
+use Solarium\Core\Query\AbstractQuery;
 use Solarium\Core\Query\Result\ResultInterface;
+use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Update\Result;
 
 class SolariumController extends Controller
@@ -70,20 +72,22 @@ class SolariumController extends Controller
         return back()->with('success', 'Data has been reindex successfully');
     }
 
-    public function search() {
-        $query = $this->client->createSelect();
-        $inputValue = 'Alice';
-        $query->setQuery('post_content:' . $inputValue);
-        $query->setRows(100);
+    public function search(Request $request)
+    {
+        $query = $this->createSolrQuery(
+            "$request->inputValue",
+            "post_content",
+            100
+        );
         $searchDocuments = $this->createSolrResultSet($query);
 
-        dd($searchDocuments);
         $documentsId = [];
-
         foreach ($searchDocuments as $docId) {
             $documentsId[] = $docId['id'];
         }
+
         dd($documentsId);
+        return $documentsId;
     }
 
     /**
@@ -132,4 +136,20 @@ class SolariumController extends Controller
 
         return $resultSet->getDocuments();
     }
+
+    /**
+     * @param string $queryFieldValue
+     * @param string $queryFieldKey
+     * @param int $queryResultRows
+     * @return AbstractQuery|Query
+     */
+    private function createSolrQuery(string $queryFieldValue, string $queryFieldKey = '*', int $queryResultRows = 10): Query|AbstractQuery
+    {
+        $query = $this->client->createSelect();
+        $query->setQuery($queryFieldKey . ":" . $queryFieldValue);
+        $query->setRows($queryResultRows);
+
+        return $query;
+    }
+
 }
