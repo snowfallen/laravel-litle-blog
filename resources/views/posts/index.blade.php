@@ -52,6 +52,9 @@
                                 <div class="container-content">
                                     <p class="text-gray-800 dark:text-gray-200 m-2">{{ $post->content }}</p>
                                 </div>
+                                <div class="container-footer flex justify-between">
+                                    <p class="text-gray-800 dark:text-gray-200 m-2 float-right">{{ $post->created_at }}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
