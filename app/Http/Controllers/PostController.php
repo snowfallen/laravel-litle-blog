@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PostCreated;
 use App\Http\Requests\PostRequest;
 use App\Models\Post;
 use Illuminate\Contracts\Foundation\Application;
@@ -36,7 +37,9 @@ class PostController extends Controller
      */
     public function store(PostRequest $request): Redirector|RedirectResponse|Application
     {
-        Post::create($request->all());
+        $post = Post::create($request->all());
+
+        event(new PostCreated($post));
 
         return redirect('post')->with('success', 'Success! Your post has been created.');
     }
