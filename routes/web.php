@@ -41,6 +41,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('user', UserController::class)
         ->middleware('role:admin');
 
+    Route::get('/ping', '\App\Http\Controllers\SolariumController@ping');
+    Route::get('/reindex', '\App\Http\Controllers\SolariumController@reindex');
+
 });
 
 require __DIR__.'/auth.php';

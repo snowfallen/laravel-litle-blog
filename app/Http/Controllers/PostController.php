@@ -13,6 +13,17 @@ use Illuminate\Routing\Redirector;
 
 class PostController extends Controller
 {
+    private SolariumController $solariumController;
+
+    /**
+     * The document scan controller constructor.
+     *
+     * @param SolariumController $solariumController
+     */
+    public function __construct(SolariumController $solariumController)
+    {
+        $this->solariumController = $solariumController;
+    }
     /**
      * @return Application|Factory|View
      */
@@ -38,6 +49,7 @@ class PostController extends Controller
     public function store(PostRequest $request): Redirector|RedirectResponse|Application
     {
         $post = Post::create($request->all());
+        $this->indexing($post);
 
         event(new PostCreated($post));
 
@@ -63,6 +75,7 @@ class PostController extends Controller
     public function update(PostRequest $request,Post $post): Redirector|RedirectResponse|Application
     {
         $post->update($request->all());
+        $this->indexing($post);
 
         return redirect('post')->with('success', 'Success! Your post has been updated.');
     }
@@ -75,8 +88,26 @@ class PostController extends Controller
      */
     public function destroy(Post $post): Redirector|Application|RedirectResponse
     {
+        $this->solrIndexDelete($post);
         $post->delete();
 
         return redirect('post')->with('success', 'Success! Your post has been deleted.');
+    }
+
+    /**
+     * @param Post $post
+     * @return void
+     */
+    private function indexing(Post $post) {
+        $this->solariumController->indexingPost($post);
+    }
+
+    /**
+     * @param Post $post
+     * @return void
+     */
+    private function solrIndexDelete(Post $post): void
+    {
+        $this->solariumController->deleteById($post);
     }
 }
