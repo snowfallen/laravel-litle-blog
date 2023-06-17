@@ -43,6 +43,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/ping', '\App\Http\Controllers\SolariumController@ping');
     Route::get('/reindex', '\App\Http\Controllers\SolariumController@reindex');
+    Route::get('/search', '\App\Http\Controllers\SolariumController@search');
 
 });
 

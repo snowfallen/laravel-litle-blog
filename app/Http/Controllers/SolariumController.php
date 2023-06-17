@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Solarium\Client;
@@ -69,6 +70,22 @@ class SolariumController extends Controller
         return back()->with('success', 'Data has been reindex successfully');
     }
 
+    public function search() {
+        $query = $this->client->createSelect();
+        $inputValue = 'Alice';
+        $query->setQuery('post_content:' . $inputValue);
+        $query->setRows(100);
+        $searchDocuments = $this->createSolrResultSet($query);
+
+        dd($searchDocuments);
+        $documentsId = [];
+
+        foreach ($searchDocuments as $docId) {
+            $documentsId[] = $docId['id'];
+        }
+        dd($documentsId);
+    }
+
     /**
      * @param $post
      * @param $update
@@ -103,5 +120,16 @@ class SolariumController extends Controller
         $update->addCommit();
 
         return $this->client->update($update);
+    }
+
+    /**
+     * @param $query
+     * @return array
+     */
+    private function createSolrResultSet($query): array
+    {
+        $resultSet = $this->client->select($query);
+
+        return $resultSet->getDocuments();
     }
 }
