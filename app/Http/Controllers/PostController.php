@@ -24,6 +24,7 @@ class PostController extends Controller
     {
         $this->solariumController = $solariumController;
     }
+
     /**
      * @return Application|Factory|View
      */

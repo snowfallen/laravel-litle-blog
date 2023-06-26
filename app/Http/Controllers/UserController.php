@@ -18,9 +18,9 @@ class UserController extends Controller
      */
     public function index(): View|Factory|Application
     {
-        $users = User::paginate(5)
-        ;
-        return view('users.index', ['users' => $users]);
+        $users = User::paginate(5);
+
+        return view('users.index', compact('users'));
     }
 
     /**
@@ -37,10 +37,6 @@ class UserController extends Controller
      */
     public function store(UserRequest $request): Redirector|RedirectResponse|Application
     {
-        $role = Role::where('name', $request->role)->first();
-        $user = User::create($request->all());
-        $user->assignRole($role);
-
 
         return redirect('user')->with('success', 'Success! User has been created.');
     }
